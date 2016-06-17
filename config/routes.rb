@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  # 
   # get "/posts/new" => "posts#new", as: :new_post
   # post "/posts" => "posts#create", as: :posts
   # get "/posts/search" => "posts#search"
