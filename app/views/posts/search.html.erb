@@ -1,0 +1,7 @@
+<h1> Search </h1>
+<% @posts.each do |post| %>
+<%= link_to post.title, post_path(post) %>
+<hr>
+<% end %>
+
+<%= paginate @posts %>

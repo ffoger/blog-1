@@ -1,8 +1,33 @@
 Rails.application.routes.draw do
 
-  root 'home#index'
+  # get "/posts/new" => "posts#new", as: :new_post
+  # post "/posts" => "posts#create", as: :posts
+  # get "/posts/search" => "posts#search"
+  # get "/posts/:id" => "posts#show", as: :post
+  # get "/posts" => "posts#index"
+  # get "/posts/:id/edit" => "posts#edit", as: :edit_post
+  # patch "/posts/:id" => "posts#update"
+  # delete "/posts/:id" => "posts#destroy"
 
-  get '/about' => 'home#about'
+
+
+  root 'home#index'
+  get "/about" => "home#about"
+
+  get "/users/edit_password" => "users#edit_password", as: :edit_password
+  patch "users"             => "users#update_password", as: :update_password
+  resources :users, only: [:new, :create] do
+    get :edit, on: :collection
+    patch :update, on: :collection
+  end
+  resources :sessions, only: [:new, :create] do
+    delete :destroy, on: :collection
+  end
+  resources :posts do
+    get :search, on: :collection
+
+    resources :comments
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -11,16 +36,16 @@ Rails.application.routes.draw do
   # root 'welcome#index'
 
   # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+  #   get 'posts/:id' => 'catalog#view'
 
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  # Example of named route that can be invoked with purchase_url(id: post.id)
+  #   get 'posts/:id/purchase' => 'catalog#purchase', as: :purchase
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
+  #   resources :posts
 
   # Example resource route with options:
-  #   resources :products do
+  #   resources :posts do
   #     member do
   #       get 'short'
   #       post 'toggle'
@@ -32,13 +57,13 @@ Rails.application.routes.draw do
   #   end
 
   # Example resource route with sub-resources:
-  #   resources :products do
+  #   resources :posts do
   #     resources :comments, :sales
   #     resource :seller
   #   end
 
   # Example resource route with more complex sub-resources:
-  #   resources :products do
+  #   resources :posts do
   #     resources :comments
   #     resources :sales do
   #       get 'recent', on: :collection
@@ -54,8 +79,8 @@ Rails.application.routes.draw do
 
   # Example resource route within a namespace:
   #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
+  #     # Directs /admin/posts/* to Admin::postsController
+  #     # (app/controllers/admin/posts_controller.rb)
+  #     resources :posts
   #   end
 end
